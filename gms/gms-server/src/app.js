@@ -10,10 +10,33 @@ const express = require('express');
 const createError = require('http-errors');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const mongoose = require('mongoose');
 const { notFoundHandler, errorHandler } = require('./error-handler');
 
 // Importing the index router
 const indexRouter = require('./routes/index');
+const gardenRouter = require('./models/garden'); 
+const plantRouter = require('./models/plant');
+
+// Mongoose connection
+const connectionString = 
+'mongodb+srv://gms_user:s3cret@bellevueuniversity.z0kkzil.mongodb.net/?retryWrites=true&w=majority&appName=BellevueUniversity';
+
+const dbName = 'gms'; // Database name
+
+// Function to connect to the database 
+async function connectToDatabase() {
+  try {
+    await mongoose.connect(connectionString, {
+      dbName: dbName, 
+    });
+    console.log(`Connection to the '${dbName}' database was successful`); 
+  } catch (err) {
+    console.error(`MongoDB connection error: ${err}`); 
+  }
+}
+    
+connectToDatabase(); // Call the function to connect to the database
 
 // Variable declaration for the express app
 let app = express();
@@ -34,6 +57,8 @@ app.use(cookieParser());
 
 // Routing configuration
 app.use('/api', indexRouter);
+app.use('/api/gardens', gardenRouter); 
+app.use('/api/plants', plantRouter);
 
 // Use the error handling middleware
 app.use(notFoundHandler);

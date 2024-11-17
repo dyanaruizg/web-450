@@ -15,8 +15,8 @@ const { notFoundHandler, errorHandler } = require('./error-handler');
 
 // Importing the index router
 const indexRouter = require('./routes/index');
-const gardenRouter = require('./models/garden'); 
-const plantRouter = require('./models/plant');
+const gardenRouter = require('./routes/garden'); 
+const plantRouter = require('./routes/plant');
 
 // Mongoose connection
 const connectionString = 

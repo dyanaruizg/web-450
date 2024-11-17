@@ -43,6 +43,9 @@ plantSchema.pre('save', function(next) {
   next(); 
 })
 
+// Creating a plant model
+const Plant = mongoose.model('Plant', plantSchema)
+
 module.exports = {
-  Plant: mongoose.model('Plant', plantSchema)
+  Plant
 }

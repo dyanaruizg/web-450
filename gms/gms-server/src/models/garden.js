@@ -68,7 +68,9 @@ gardenSchema.pre('validate', async function(next) {
   }
 });
 
+// Creating a garden model
+const Garden = mongoose.model('Garden', gardenSchema);
+
 module.exports = {
-  Garden: mongoose.model('Garden', gardenSchema), 
-  Counter: mongoose.model('Counter', counterSchema)
+  Garden, Counter
 };

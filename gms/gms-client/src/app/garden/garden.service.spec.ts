@@ -57,27 +57,26 @@ describe('GardenService', () => {
   });
 
   it('should add a new garden', () => {
-    const addGardenDTO: AddGardenDTO = {
+    const newGarden: AddGardenDTO = {
       name: 'Garden 3',
       location: 'Location 3',
       description: 'Description 3'
     };
 
-    const addGarden: Garden = {
+    const mockResponse: Garden = {
       _id: '3',
       gardenId: 3,
-      name: 'Garden 3',
-      location: 'Location 3',
-      description: 'Description 3'
+      ...newGarden
     };
 
-    service.addGarden(addGardenDTO).subscribe(garden => {
-      expect(garden).toEqual(addGarden);
+    service.addGarden(newGarden).subscribe(garden => {
+      expect(garden).toEqual(mockResponse);
     });
 
     const req = httpMock.expectOne(`${environment.apiBaseUrl}/api/gardens`);
     expect(req.request.method).toBe('POST');
-    req.flush(addGardenDTO);
+    expect(req.request.body).toEqual(newGarden);
+    req.flush(mockResponse);
   });
 
   it('should update an existing garden', () => {

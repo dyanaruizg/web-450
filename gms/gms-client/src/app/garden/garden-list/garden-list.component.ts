@@ -41,10 +41,10 @@ import { GardenService } from '../garden.service';
                 <td class="garden-page__table-cell">{{ garden.description }}</td>
                 <td class="garden-page__table-cell">{{ garden.dateCreated }}</td>
                 <td class="garden-page__table-cell garden-page__table-cell--functions">
-                <a routerLink="/gardens/{{garden.gardenId}}" class="garden-page__icon-
-                link"><i class="fas fa-edit"></i></a>
-                <a (click)="deleteGarden(garden.gardenId)" class="garden-page__icon-link"><i
-                class="fas fa-trash-alt"></i></a>
+                  <a routerLink="/gardens/{{garden.gardenId}}" class="garden-page__icon-
+                  link"><i class="fas fa-edit"></i></a>
+                  <a (click)="deleteGarden(garden.gardenId)" class="garden-page__icon-link"><i
+                  class="fas fa-trash-alt"></i></a>
                 </td>
               </tr>
             }

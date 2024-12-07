@@ -3,6 +3,9 @@ import { HomeComponent } from './home/home.component';
 import { GardenDetailsComponent } from './garden/garden-details/garden-details.component';
 import { GardenListComponent } from './garden/garden-list/garden-list.component';
 import { GardenAddComponent } from './garden/garden-add/garden-add.component';
+import { PlantListComponent } from './plant/plant-list/plant-list.component';
+import { PlantAddComponent } from './plant/plant-add/plant-add.component';
+import { PlantDetailsComponent } from './plant/plant-details/plant-details.component';
 
 export const routes: Routes = [
   {
@@ -20,5 +23,17 @@ export const routes: Routes = [
   {
     path: 'gardens/:gardenId',
     component: GardenDetailsComponent
+  },
+  {
+    path: 'plants',
+    component: PlantListComponent
+  },
+  {
+    path: 'plants/add',
+    component: PlantAddComponent
+  },
+  {
+    path: 'plants/:plantId',
+    component: PlantDetailsComponent
   }
 ];

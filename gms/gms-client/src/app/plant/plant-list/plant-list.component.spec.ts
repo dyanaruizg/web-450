@@ -66,4 +66,43 @@ describe('PlantListComponent', () => {
     expect(component.plants.length).toBe(1);
     expect(component.plants[0]._id).toBe('2');
   });
+
+  it('should filter plants based on filter type', () => {
+    const mockPlants: Plant[] = [
+      {
+        _id: '1', gardenId: 1, name: 'Rose', type: 'Flower', status: 'Planted',
+        datePlanted: '2023-01-01'
+      },
+      {
+        _id: '2', gardenId: 1, name: 'Tulip', type: 'Flower', status: 'Planted',
+        datePlanted: '2023-01-02'
+      },
+      {
+        _id: '3', gardenId: 1, name: 'Carrot', type: 'Vegetable', status: 'Planted',
+        datePlanted: '2023-01-03'
+      }
+    ];
+
+    component.plants = mockPlants;
+    component.allPlants = mockPlants;
+    fixture.detectChanges(); // Trigger change detection
+
+    component.filterType = 'Flower';
+    component.filterPlants();
+    fixture.detectChanges(); // Trigger change detection
+    expect(component.plants.length).toBe(2);
+    expect(component.plants[0].name).toBe('Rose');
+    expect(component.plants[1].name).toBe('Tulip');
+
+    component.filterType = 'Vegetable';
+    component.filterPlants();
+    fixture.detectChanges(); // Trigger change detection
+    expect(component.plants.length).toBe(1);
+    expect(component.plants[0].name).toBe('Carrot');
+
+    component.filterType = '';
+    component.filterPlants();
+    fixture.detectChanges(); // Trigger change detection
+    expect(component.plants.length).toBe(3);
+  });
 });

@@ -1,16 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { debounceTime, map, of } from 'rxjs';
 import { Garden } from '../garden';
 import { GardenService } from '../garden.service';
 
 @Component({
   selector: 'app-garden-list',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, ReactiveFormsModule],
   template: `
     <div class="garden-page">
       <h1 class="garden-page__title">Garden List</h1>
+
+      <input type="text" placeholder="Search gardens by name" [formControl]="txtSearchControl" class="garden-page__search" />
 
       <button class="garden-page__button" routerLink="/gardens/add">Add Garden</button>
 
@@ -143,18 +147,34 @@ import { GardenService } from '../garden.service';
       background-color: #dﬀ0d8;
       border-color: #d6e9c6;
     }
+
+    .garden-page__search-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .garden-page__search {
+      flex: 1;
+      padding: 0.5rem;
+      margin-right: 0.5rem;
+    }
   `
 })
 export class GardenListComponent {
   gardens: Garden[] = [];
+  allGardens: Garden[] = [];
   errorMessage: string = '';
   serverMessage: string | null = null;
   serverMessageType: 'success' | 'error' | null = null;
+
+  txtSearchControl = new FormControl('');
 
   constructor(private gardenService: GardenService) {
     this.gardenService.getGardens().subscribe({
       next: (gardens: Garden[]) => {
         this.gardens = gardens;
+        this.allGardens = gardens;
         console.log(`Gardens: ${JSON.stringify(this.gardens)}`);
       },
         error: (err: any) => {
@@ -162,6 +182,14 @@ export class GardenListComponent {
         this.errorMessage = err.message;
       }
     });
+
+    this.txtSearchControl.valueChanges.pipe(debounceTime(500)).subscribe(val =>
+      this.filterGardens(val || ''));
+  }
+
+  filterGardens(name: string) {
+    this.gardens = this.allGardens.filter(g =>
+    g.name.toLowerCase().includes(name.toLowerCase()));
   }
 
   deleteGarden(gardenId: number) {
